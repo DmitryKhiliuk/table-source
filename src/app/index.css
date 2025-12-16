@@ -1,0 +1,49 @@
+@import "tailwindcss";
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+ul,
+ol {
+    padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+img,
+dd {
+    margin: 0;
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+html,
+body {
+    font-family: Golos Text, Arial, PT Sans Caption,
+    Roboto, sans-serif, 'Ubuntu', 'Oxygen',
+    'Cantarell', 'Fira Sans', 'Helvetica Neue';
+    scrollbar-width: none; /* Для Firefox */
+    -ms-overflow-style: none; /* Для Internet Explorer и Edge */
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
