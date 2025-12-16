@@ -1,9 +1,13 @@
-import {Table} from "../widgets/table.tsx";
+import {TableComponent} from "../table/tableComponent.tsx";
+import data from '../dataExample/basicData.json'
 
 function App() {
+
+    const firstRow = Array.isArray(data) && data.length > 0 ? data[0] : undefined;
+
     return (
         <>
-            <Table/>
+            <TableComponent data={data} dataColumns={firstRow}/>
         </>
     )
 }
