@@ -45,7 +45,7 @@ export const useResizeColumns = () => {
         if (!resizingRef.current) return
         const {columnId, startX, startWidth} = resizingRef.current
         const delta = e.clientX - startX
-        const newWidth = Math.max(40, Math.round(startWidth + delta)) // min width 40px
+        const newWidth = Math.max(10, Math.round(startWidth + delta)) // min width 40px
         setColumnWidths((prev) => ({...prev, [columnId]: newWidth}))
     }
 
@@ -58,4 +58,7 @@ export const useResizeColumns = () => {
 
     return [columnWidths, onMouseDown] as const
 };
+
+
+
 

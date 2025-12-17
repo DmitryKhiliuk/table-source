@@ -8,7 +8,6 @@ type TableComponentPropsType = {
 }
 
 
-
 export const TableComponent = ({data, dataColumns}: TableComponentPropsType) => {
 
     const columns = useCreateColumns(dataColumns)
@@ -24,17 +23,20 @@ export const TableComponent = ({data, dataColumns}: TableComponentPropsType) => 
 
     return (
         <div className="w-full overflow-x-auto p-2 box-border">
-            <table className="w-full border-collapse font-sans text-sm bg-white text-slate-900">
+            <table className="w-full table-fixed border-collapse font-sans text-sm bg-white text-slate-900">
                 <thead className="bg-slate-100">
                 {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header) => {
-                            const colId = header.id
-                            const width = columnWidths[colId]
                             return (
-                                <th key={header.id} className="text-left font-semibold px-3 py-2 md:px-4 md:py-3 border border-slate-200 whitespace-nowrap"
-                                    /*БЛОК ДЛЯ РЕСАЙЗА*/
-                                    style={{position: 'relative', width: width ? `${width}px` : undefined, minWidth: width ? `${width}px` : undefined}}
+                                <th key={header.id}
+                                    className="text-left font-semibold px-3 py-2 md:px-4 md:py-3 border border-slate-200 whitespace-nowrap"
+                                    /*БЛОК ДЛЯ РЕСАЙЗА - применение ширины к шапке*/
+                                    style={{
+                                        position: 'relative',
+                                        width: columnWidths[header.id] ? `${columnWidths[header.id]}px` : undefined,
+                                        minWidth: columnWidths[header.id] ? `${columnWidths[header.id]}px` : undefined
+                                    }}
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -43,9 +45,9 @@ export const TableComponent = ({data, dataColumns}: TableComponentPropsType) => 
                                             header.getContext(),
                                         )}
 
-                                    {/*БЛОК ДЛЯ РЕСАЙЗА*/}
+                                    {/*БЛОК ДЛЯ РЕСАЙЗА - триггер для перетаскивания*/}
                                     <div
-                                        onMouseDown={(e) => onMouseDown(e, colId)}
+                                        onMouseDown={(e) => onMouseDown(e, header.id)}
                                         style={{
                                             position: 'absolute',
                                             right: 0,
@@ -68,13 +70,24 @@ export const TableComponent = ({data, dataColumns}: TableComponentPropsType) => 
                 {table.getRowModel().rows.map((row) => (
                     <tr key={row.id} className="even:bg-slate-50 hover:bg-slate-100">
                         {row.getVisibleCells().map((cell) => {
-                            const colId = cell.column.id
-                            const width = columnWidths[colId]
                             return (
-                                <td key={cell.id} className="px-3 py-2 md:px-4 md:py-3 border border-slate-200 align-middle whitespace-nowrap"
-                                    style={{width: width ? `${width}px` : undefined, minWidth: width ? `${width}px` : undefined, overflow: 'hidden', textOverflow: 'ellipsis'}}
+                                <td key={cell.id}
+                                    className="px-3 py-2 md:px-4 md:py-3 border border-slate-200 align-middle whitespace-nowrap"
+                                    /*БЛОК ДЛЯ РЕСАЙЗА - применение ширины к телу таблицы*/
+                                    style={{
+                                        width: columnWidths[cell.column.id] ? `${columnWidths[cell.column.id]}px` : undefined,
+                                        minWidth: columnWidths[cell.column.id] ? `${columnWidths[cell.column.id]}px` : undefined,
+                                    }}
                                 >
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    <div
+                                        style={{
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                        }}
+                                    >
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </div>
                                 </td>
                             )
                         })}
